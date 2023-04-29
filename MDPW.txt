@@ -1,0 +1,427 @@
+1. Create an application to add image via asset and network.
+Add an image in assets folder
+Make changes in pubspec.yaml
+assets: 
+ - assets/
+main.dart
+import 'package:flutter/material.dart' hide NavigationDrawer;
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+   const MyApp({super.key});
+   @override
+   Widget build(BuildContext context) {
+      return MaterialApp(
+         debugShowCheckedModeBanner: false,
+         home: Scaffold(
+            appBar: AppBar(
+               title: const Text('Home'),
+               backgroundColor: Color.fromARGB(255, 219, 112, 147),
+            ),
+            body: Center(
+               child: Column(
+                  children: <Widget>[
+                     Image.asset('assets/hello.png'),
+                     Image.network("https://media.tenor.com/ewVDj3xZ6IEAAAAC/
+                     cute-cat.gif")
+                     Image.network("https://static.vecteezy.com/system/resources/previews/
+                     004/226/762/original/panda-cartoon-cute-say-hello-panda-animals-
+                     illustration-vector.jpg"),
+                  ],
+               ),
+            ),
+         ),
+      );
+   }
+}
+
+
+
+2. Create an application to add drawer 
+main.dart
+import 'package:flutter/material.dart' hide NavigationDrawer;
+import 'screens/drawer.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+   const MyApp({super.key});
+
+   @override
+   Widget build(BuildContext context) {
+      return MaterialApp(
+         debugShowCheckedModeBanner: false,
+         home: Scaffold(
+            appBar: AppBar(
+               title: const Text('MyApp'),
+               backgroundColor: Color.fromARGB(255, 219, 112, 147),
+            ),
+            drawer: const NavigationDrawer(),
+         ),
+      );
+   }
+}
+
+screens/drawer.dart
+import 'package:flutter/material.dart';
+
+@override
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({super.key});
+  @override
+  Widget build(BuildContext context) => Drawer(
+    child: ListView(
+      children: [
+        ListTile(
+          leading: const Icon(Icons.home),
+          title: const Text('Home'),
+        ),
+
+
+        ListTile(
+          leading: const Icon(Icons.person),
+          title: const Text('Personal'),
+        ),
+        ListTile(
+          leading: const Icon(Icons.school),
+          title: const Text('Education'),
+        ),
+      ],
+    ),
+  );
+}
+
+
+
+3. Create an application to do navigation from one page to another
+import 'package:flutter/material.dart';
+
+void main() {
+   runApp(const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+   ));
+}
+
+class HomePage extends StatelessWidget {
+   const HomePage({Key? key}) : super(key: key);
+   @override
+   Widget build(BuildContext context) {
+      return Scaffold(
+         appBar: AppBar(
+            title: const Text("Home Screen"),
+            backgroundColor: Color.fromARGB(255, 163, 158, 240),
+         ),
+         body: Center(
+            child: ElevatedButton(
+               child: const Text("Click for next page!"),
+               onPressed: () {
+                  Navigator.push(context,
+                     MaterialPageRoute(builder: (context) => const SecondPage()));
+               }),
+         ),
+      );
+   }
+}
+
+class SecondPage extends StatelessWidget {
+   const SecondPage({Key? key}) : super(key: key);
+   @override
+   Widget build(BuildContext context) {
+      return Scaffold(
+         appBar: AppBar(
+            title: const Text("Click me Page!"),
+            backgroundColor: Color.fromARGB(255, 239, 95, 128),
+         ),
+         body: Center(
+            child: ElevatedButton(
+               child: const Text("Back to Home!"),
+               onPressed: () {
+                  Navigator.pop(context);
+               },
+            ),
+         ),
+      );
+   }
+}
+
+
+
+4. Create an application for hello world with text style
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Color(0xFFE1BEE7),
+        appBar: AppBar(
+          title: const Text("HELLO WORLD"),
+        ),
+        body: const Center(
+          child: Text("Hello World from Afrah", style: TextStyle(fontSize: 30),
+        )),
+      ),
+    );
+  }
+}
+
+
+
+5. Deploy application in your phone.
+Step 1: create icon 192 x 192 px in png format 
+Step 2: add icon in asset folder 
+Step 3: add dependencies for icon by visiting pub dev site 
+dev_dependencies: 
+   flutter_launcher_icons: "^0.13.1" 
+flutter_launcher_icons: 
+   android: "launcher_icon" 
+   ios: true 
+   image_path: "assets/icon/icon.png" 
+   min_sdk_android: 21 # android min sdk min:16, default 21 
+run the flutter pub get command 
+after that run the command - flutter pub run flutter_launcher_icons: main to generate app launcher icons
+after saving the file run the following command for app bundle - flutter build appbundle 
+Once you run this command, you will find the generated .aab file in the build/app/outputs/bundle/release/ directory of your Flutter project. 
+After that run the following command for apk bundle - flutter build apk 
+Once you run this command, you will find the generated APK file in the build/app/outputs/flutter-apk/ directory of your Flutter project. 
+Download the apk file in your personnel smart phone and install it.
+
+
+
+6. Create a form using email id and password and show the value in dialogue box.
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Form Example',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Sign In'),
+          backgroundColor: Color.fromARGB(255, 102, 51, 153),
+        ),
+        body: MyForm(),
+      ),
+    );
+  }
+}
+
+class MyForm extends StatefulWidget {
+  @override
+  _MyFormState createState() => _MyFormState();
+}
+
+class _MyFormState extends State<MyForm> {
+  String _email = "0";
+  String _password = "0";
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void _submitForm() {
+    final FormState? form = _formKey.currentState;
+
+    if (!form!.validate()) {
+      showMessage('Form is not valid!  Please review and correct.');
+    } else {
+      form.save(); //This invokes each onSaved event
+
+      showMessage('Email: $_email\n\n'
+                                 'Password: $_password\n\n');
+    }
+  }
+
+  void showMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+@override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Email ID',
+                ),
+  keyboardType: TextInputType.emailAddress,
+  validator: (value) {
+    if (value!.isEmpty) {
+      return 'Please enter your email address.';
+    }
+    if (!RegExp(r'\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$')
+.hasMatch(value)) {
+      return 'Please enter a valid email address.';
+    }
+    return null;
+  },
+  onSaved: (value) {
+    _email = value!;
+  },
+),
+              TextFormField(
+  obscureText: true,
+  decoration: const InputDecoration(
+    labelText: 'Password',
+  ),
+  validator: (value) {
+    if (value!.isEmpty) {
+      return 'Please enter a password.';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters long.';
+    }
+    return null;
+  },
+  onSaved: (value) {
+    _password = value!;
+  },
+),
+const SizedBox(height: 16.0),
+               ElevatedButton(
+  onPressed: _submitForm,
+  child: const Text('Submit'),
+  style: ButtonStyle(
+    backgroundColor: MaterialStateProperty.all<Color>(
+Color.fromARGB(255, 102, 51, 153)),
+                  ),
+ ),
+const SizedBox(height: 16.0),
+const SizedBox(height: 16.0),
+             ],
+           ),
+         ),
+       ),
+     );
+   }
+}
+
+
+
+7. Steps to perform connectivity with firebase database.
+Step 1: Create Flutter project as firebase_demo
+Step 2: Add dependencies
+firebase_auth: ^1.0.1 # add this line
+firebase_core: ^1.0.2 # add this line
+Step 3: run the flutter pub get command 
+Step 4: Visit the firebase.google.com and perform the following steps:
+•	Visit the Firebase Console.
+•	Start by adding a New Project
+•	Giving the project a name and agreeing to all they’ve asked
+•	Click ‘Create Project.’
+Once you’re done creating the project, it’s time to integrate it with Android and iOS applications.
+Step 5:  Configure Firebase with Android and iOS Application
+Register Android application
+For registering the android app, you have to provide a unique package name. For that, you can find it at android>app>build.gradle, by default it will take com.example.application_name. The next field App nickname is optional.
+Download Android Config file
+After filling the required fields, you’ll see something like this. Download google-services.json and place it in MyApplication/android/app folder.
+You can skip the next step as we are using: firebase_core and firebase_auth packages. Click ‘Continue to Console’ to complete the process.
+Enable Email/Password Authentication in Firebase
+On visiting the Firebase dashboard, click ‘Authentication.’
+Under the Sign-in method click ‘Email/Password’ and enable it using the toggle button. Use the below screenshots for your reference.
+
+
+
+8. Create a simple PWA application.
+Step 1: Create a responsive UI using ReactJS
+Step 2: Create icon of 192x192 and 512x512 size.
+Step 3: Create images folder in public folder and add icons in images folder.
+Step 3: Add manifest.json file 
+myapp/public/manifest.json
+{
+"name":"PWA Tutorial",
+"short_name":"PWA",
+"start_url":"index.html",
+"display":"standalone",
+"background_color":"#5900b3",
+"theme_color":"black",
+"scope": ".",
+"description":"This is a PWA tutorial.",
+"icons":[
+{
+"src":"images/icon-192x192.png",	
+"sizes":"192x192",
+"type":"image/png"
+},
+{
+"src":"images/icon-512x512.png",
+"sizes":"512x512",
+"type":"image/png"
+}
+]
+}
+
+Step 4: Add serviceworker.js file 
+myapp/public/serviceworker.js
+var staticCacheName = "pwa";
+
+self.addEventListener("install", function (e) {
+e.waitUntil(
+caches.open(staticCacheName).then(function (cache) {
+return cache.addAll(["/"]);
+})
+);
+});
+
+self.addEventListener("fetch", function (event) {
+console.log(event.request.url);
+
+event.respondWith(
+caches.match(event.request).then(function (response) {
+return response || fetch(event.request);
+})
+);
+});
+
+Step 5: Add following script in index.html file
+myapp/public/index.html
+<script>
+   window.addEventListener('load', () => {
+      registerSW();
+   });
+
+   // Register the Service Worker
+   async function registerSW() {
+      if ('serviceWorker' in navigator) {
+         try {
+            await navigator
+            .serviceWorker
+            .register('serviceworker.js');
+         }
+         catch (e) {
+            console.log('SW registration failed');
+         }
+      }
+   }
+</script>
